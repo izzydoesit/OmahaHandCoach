@@ -2,7 +2,7 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
-    "target": "ES5",
+    "target": "ES2021",
     "module": "commonjs",
     "outDir": "build",
     "jsx": "react",
