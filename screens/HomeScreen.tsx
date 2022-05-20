@@ -1,18 +1,21 @@
 import { StyleSheet } from "react-native"
 
-import EditScreenInfo from "../components/GameChoiceInfo"
 import { Text, View } from "../components/Themed"
+import { RootTabScreenProps } from "../types"
+import GameChoices from "../components/GameChoices"
+import GameChoiceInfo from "../components/GameChoiceInfo"
 
-export default function TabTwoScreen() {
+export default function HomeScreen({ navigation }: RootTabScreenProps<"Home">) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Statistics</Text>
+      <Text style={styles.title}>What game would you like to play?</Text>
       <View
         style={styles.separator}
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <Text>Some statistical data...</Text>
+      <GameChoiceInfo />
+      <GameChoices />
     </View>
   )
 }
