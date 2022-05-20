@@ -1,14 +1,18 @@
-import { POSITIONS } from "../util/card_data"
+import { POSITIONS } from "../util/GAME_DATA"
 
 export default class Position {
-  seat: string
+  current: string
 
   constructor() {
-    this.seat = ""
+    this.current = ""
   }
 
-  assignSeat() {
+  clearPosition(): void {
+    this.current = ""
+  }
+
+  assignNewPosition(): void {
     const randomNum = Math.floor(Math.random() * POSITIONS.length)
-    this.seat = POSITIONS[randomNum]
+    this.current = POSITIONS[randomNum]
   }
 }

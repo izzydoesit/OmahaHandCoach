@@ -1,9 +1,10 @@
+import { HandClass, SUITEDNESS } from "../util/GAME_DATA"
 import Card from "./Card"
 
 export default class Hand {
   cards: Array<Card>
-  strength: string
-  suited: string
+  strength: HandClass
+  suited: SUITEDNESS
 
   constructor(cards: Array<Card> = new Array(4)) {
     this.cards = cards
@@ -11,18 +12,18 @@ export default class Hand {
     this.suited = this.calculateSuitedness(cards)
   }
 
-  calculateHandStrength(cards: Array<Card>): string {
+  calculateHandStrength(cards: Array<Card>): HandClass {
     if (this.cards && this.cards.length === 4) {
       console.log("CALCULATING HAND STRENGTH...", cards)
-      return "PREMIUM OR SPECULATIVE OR MARGINAL OR TRASH"
+      return HandClass.PREMIUM
     } else {
       console.log("ERROR IN CALCULATE_HAND_STRENGTH()")
-      return "ERROR"
+      return HandClass.TRASH
     }
   }
 
-  calculateSuitedness(cards: Array<Card>): string {
+  calculateSuitedness(cards: Array<Card>): SUITEDNESS {
     console.log("CALCULATING SUITEDNESS...", cards)
-    return "ONE OF DOUBLE, SINGLE OR NONE"
+    return SUITEDNESS.DOUBLE
   }
 }

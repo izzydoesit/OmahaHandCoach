@@ -1,8 +1,8 @@
-import { HAND_STRENGTH_CLASSIFICATIONS } from "../util/card_data"
+// import getRandomNumber from "../util/dealer_helpers"
+import { CORRECT_MOVES, HandClass, Option } from "../util/GAME_DATA"
 import Deck from "./Deck"
 import Hand from "./Hand"
 import Player from "./Player"
-import Position from "./Position"
 
 export default class Table {
   result: string
@@ -12,13 +12,15 @@ export default class Table {
 
   constructor(player: Player) {
     this.deck = new Deck()
+    this.player = player
     this.result = ""
     this.insight = ""
-    this.player = player
   }
 
   checkPlaySelection(): void {
-    if (this.player.hand.strength === HAND_STRENGTH_CLASSIFICATIONS) {
+    const handClass: HandClass = this.player.hand.strength
+    // TODO: add this.player.position.seat to comparison
+    if (this.player.selection === CORRECT_MOVES[handClass]) {
       this.result = "WIN"
     } else {
       this.result = "LOSE"
@@ -34,8 +36,13 @@ export default class Table {
   resetTable(): void {
     this.result = ""
     this.insight = ""
-    this.player.position = new Position()
+    this.player.selection = Option.NOT_SELECTED
     this.player.hand = new Hand()
-    // set timeout for 20 sec and deal new hand
+    this.player.position.clearPosition()
+
+    setTimeout(() => {
+      this.player.position.assignNewPosition()
+      this.player.hand = this.deck.dealHand()
+    }, 7000)
   }
 }

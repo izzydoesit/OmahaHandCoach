@@ -1,6 +1,7 @@
 import Card from "./Card"
-import { SUITS, RANKS } from "../util/card_data"
+import { SUITS, RANKS } from "../util/GAME_DATA"
 import Hand from "./Hand"
+import getRandomNumber from "../util/dealer_helpers"
 
 export default class Deck {
   cards: Array<Card>
@@ -19,12 +20,31 @@ export default class Deck {
     return deck
   }
 
-  shuffleDeck(): void {}
+  shuffleDeck(): void {
+    // randomize the deck order
+    let currentId: number = this.cards.length
+    let randomId: number = getRandomNumber(this.cards.length)
 
-  dealHand(): Hand {
+    while (0 != currentId) {
+      let temp = this.cards[currentId]
+      this.cards[currentId] = this.cards[randomId]
+      this.cards[randomId] = temp
+      currentId -= 1
+      randomId = getRandomNumber(currentId)
+    }
+  }
+
+  dealHand(game: string = "OMAHA"): Hand {
     this.shuffleDeck()
-    const newHand: Hand = new Hand()
-    // pick 4 random cards from deck and add to Hand.cards
+
+    let numCards
+    if (game.toLowerCase() === "omaha") {
+      numCards = 4
+    } else {
+      numCards = 2
+    }
+    const playerCards = this.cards.slice(0, numCards)
+    const newHand: Hand = new Hand(playerCards)
     return newHand
   }
 }
