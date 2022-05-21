@@ -1,9 +1,16 @@
 module.exports = {
+  "preset": "jest-expo",
   "transform": {
       "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.tsx?$": "ts-jest"
   },
-  "preset": "jest-expo",
+  "globals": {
+    "ts-jest": {
+      "tsconfig": {
+        "jsx": "react-jsx",
+      }
+    }
+  },
   "testRegex": "(/__tests__/.*|/src/.*\\.(test|spec))\\.(jsx?|tsx?)$",
   "moduleFileExtensions": [
     "ts",
