@@ -1,21 +1,26 @@
 import { StyleSheet } from "react-native"
-
 import { Text, View } from "../components/Themed"
 import { RootTabScreenProps } from "../types"
 import GameChoices from "../components/GameChoices"
 import GameChoiceInfo from "../components/GameChoiceInfo"
 
-export default function HomeScreen({ navigation }: RootTabScreenProps<"Home">) {
+export default function HomeScreen({
+  navigation,
+}: // route,
+RootTabScreenProps<"Home">) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>What game would you like to play?</Text>
+      <View>
+        <Text style={styles.title}>Welcome to PLO Hand Blitz</Text>
+      </View>
+      <Text style={styles.prompt}>What game would you like to play?</Text>
       <View
         style={styles.separator}
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
       <GameChoiceInfo />
-      <GameChoices />
+      <GameChoices navigation={navigation} route={undefined} />
     </View>
   )
 }
@@ -27,8 +32,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   title: {
-    fontSize: 20,
+    fontSize: 40,
     fontWeight: "bold",
+    marginVertical: 40,
+  },
+  prompt: {
+    fontSize: 20,
   },
   separator: {
     marginVertical: 30,
