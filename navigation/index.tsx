@@ -3,7 +3,11 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from "@expo/vector-icons"
+import {
+  FontAwesome,
+  FontAwesome5,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import {
   NavigationContainer,
@@ -12,14 +16,19 @@ import {
 } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import * as React from "react"
-import { ColorSchemeName, Pressable } from "react-native"
-
+import {
+  ColorSchemeName,
+  Pressable,
+  PressableStateCallbackType,
+} from "react-native"
 import Colors from "../constants/Colors"
 import useColorScheme from "../hooks/useColorScheme"
+import HomeScreen from "../screens/HomeScreen"
+import GameScreen from "../screens/GameScreen"
+import StatisticsScreen from "../screens/StatisticsScreen"
 import ModalScreen from "../screens/ModalScreen"
 import NotFoundScreen from "../screens/NotFoundScreen"
-import Home from "../screens/Home"
-import Statistics from "../screens/Statistics"
+import { Text } from "../components/Themed"
 import {
   RootStackParamList,
   RootTabParamList,
@@ -79,16 +88,15 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}
     >
       <BottomTab.Screen
         name="Home"
-        component={Home}
-        options={({ navigation }: RootTabScreenProps<"TabOne">) => ({
-          title: "Home",
+        component={HomeScreen}
+        options={({ navigation }: RootTabScreenProps<"Home">) => ({
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Pressable
@@ -108,8 +116,30 @@ function BottomTabNavigator() {
         })}
       />
       <BottomTab.Screen
+        name="Game"
+        component={GameScreen}
+        options={({ navigation }: RootTabScreenProps<"Game">) => ({
+          title: "Pot Limit Omaha",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="poker-chip" size={30} color={color} />
+          ),
+          headerRight: () => (
+            <Pressable
+              onPress={(): void => navigation.navigate("Home")}
+              style={({ pressed }: PressableStateCallbackType) => ({
+                marginHorizontal: 20,
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
+              <FontAwesome5 name="door-open" size={20} color="black" />
+              <Text>EXIT</Text>
+            </Pressable>
+          ),
+        })}
+      />
+      <BottomTab.Screen
         name="Statistics"
-        component={Statistics}
+        component={StatisticsScreen}
         options={{
           title: "Statistics",
           tabBarIcon: ({ color }) => (
