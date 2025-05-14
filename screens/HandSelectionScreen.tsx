@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
+import { storeHandSelection } from "../utils/storage";
 import Button from "../components/Button"; // Import Button component
 import { omahaHands } from "../data/omahaHands"; // Import omaha hands data
 
@@ -8,6 +9,7 @@ const HandSelectionScreen = () => {
 
 	const handleSelectHand = (hand) => {
 		setSelectedHand(hand);
+		storeHandSelection(hand); // 👈 store the selection
 		evaluateHand(hand);
 	};
 
