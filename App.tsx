@@ -1,27 +1,20 @@
 import React from "react";
-import { SafeAreaView, Text, StyleSheet } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import HomeScreen from "./screens/HomeScreen";
+import HandSelectionScreen from "./screens/HandSelectionScreen";
+
+const Stack = createStackNavigator();
 
 const App = () => {
 	return (
-		<SafeAreaView style={styles.container}>
-			<Text style={styles.title}>Omaha Hand Coach</Text>
-			<StatusBar style="auto" />
-		</SafeAreaView>
+		<NavigationContainer>
+			<Stack.Navigator initialRouteName="Home">
+				<Stack.Screen name="Home" component={HomeScreen} />
+				<Stack.Screen name="HandSelection" component={HandSelectionScreen} />
+			</Stack.Navigator>
+		</NavigationContainer>
 	);
 };
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: "#fff",
-	},
-	title: {
-		fontSize: 30,
-		fontWeight: "bold",
-	},
-});
 
 export default App;
