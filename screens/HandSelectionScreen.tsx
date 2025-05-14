@@ -1,77 +1,74 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import { storeHandSelection } from "../utils/storage";
-import Button from "../components/Button"; // Import Button component
-import { omahaHands } from "../data/omahaHands"; // Import omaha hands data
+import React, { useEffect, useState } from "react";
+import { View, Text, FlatList, StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import PrimaryButton from "../components/ui/PrimaryButton";
+
+type Hand = string[];
 
 const HandSelectionScreen = () => {
-	const [selectedHand, setSelectedHand] = useState(null);
+	const [selectedHands, setSelectedHands] = useState<Hand[]>([]);
+	const navigation = useNavigation();
 
-	const handleSelectHand = (hand) => {
-		setSelectedHand(hand);
-		storeHandSelection(hand); // 👈 store the selection
-		evaluateHand(hand);
-	};
+	useEffect(() => {
+		const loadHistory = async () => {
+			try {
+				const history = await AsyncStorage.getItem("trainingHistory");
+				if (history) {
+					setSelectedHands(JSON.parse(history));
+				}
+			} catch (error) {
+				console.error("Failed to load training history", error);
+			}
+		};
 
-	const evaluateHand = (hand) => {
-		// Placeholder for evaluating the hand (e.g., hand strength, odds, etc.)
-		console.log(`Evaluating hand: ${hand.name}`);
-		// You can expand this with actual logic for hand evaluation, e.g., strength or odds
-	};
-
-	const renderItem = ({ item }) => {
-		return (
-			<View style={styles.handItem}>
-				<Button title={item.name} onPress={() => handleSelectHand(item)} />
-				{selectedHand && selectedHand.id === item.id && (
-					<Text style={styles.selectedText}>Selected!</Text>
-				)}
-			</View>
-		);
-	};
+		loadHistory();
+	}, []);
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.text}>Select Your Starting Hand</Text>
+			<Text style={styles.title}>🃏 Omaha Hand Trainer</Text>
+
 			<FlatList
-				data={omahaHands}
-				keyExtractor={(item) => item.id.toString()}
-				renderItem={renderItem}
+				data={selectedHands}
+				keyExtractor={(_, index) => index.toString()}
+				renderItem={({ item }) => (
+					<Text style={styles.handItem}>{item.join(" ")}</Text>
+				)}
+				ListEmptyComponent={
+					<Text style={styles.emptyText}>No hands selected yet.</Text>
+				}
 			/>
-			{selectedHand && (
-				<Text style={styles.selectedHandText}>
-					You selected: {selectedHand.name} ({selectedHand.description})
-				</Text>
-			)}
+
+			<PrimaryButton
+				title="📜 View Training History"
+				onPress={() => navigation.navigate("TrainingHistory")}
+			/>
 		</View>
 	);
 };
 
+export default HandSelectionScreen;
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		padding: 20,
-		justifyContent: "center",
+		padding: 24,
+		backgroundColor: "#121212",
 	},
-	text: {
-		fontSize: 18,
+	title: {
+		fontSize: 28,
 		fontWeight: "bold",
+		color: "#fff",
 		marginBottom: 20,
 	},
 	handItem: {
+		fontSize: 18,
+		color: "#00ffc8",
 		marginBottom: 10,
 	},
-	selectedText: {
-		color: "green",
-		fontSize: 14,
-		marginTop: 5,
-	},
-	selectedHandText: {
-		marginTop: 20,
-		fontSize: 16,
-		fontWeight: "bold",
-		color: "#4CAF50",
+	emptyText: {
+		color: "#777",
+		fontStyle: "italic",
 	},
 });
-
-export default HandSelectionScreen;
