@@ -1,20 +1,26 @@
-import React from "react";
+// App.tsx
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "./screens/HomeScreenScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HandSelectionScreen from "./screens/HandSelectionScreen";
+import TrainingHistoryScreen from "./screens/TrainingHistoryScreen";
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
-const App = () => {
+export default function App() {
 	return (
 		<NavigationContainer>
-			<Stack.Navigator initialRouteName="Home">
-				<Stack.Screen name="Home" component={HomeScreen} />
-				<Stack.Screen name="HandSelection" component={HandSelectionScreen} />
+			<Stack.Navigator initialRouteName="HandSelection">
+				<Stack.Screen
+					name="HandSelection"
+					component={HandSelectionScreen}
+					options={{ title: "Train a Hand" }}
+				/>
+				<Stack.Screen
+					name="TrainingHistory"
+					component={TrainingHistoryScreen}
+					options={{ title: "History" }}
+				/>
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
-};
-
-export default App;
+}
