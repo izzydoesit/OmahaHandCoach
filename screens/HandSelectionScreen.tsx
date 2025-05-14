@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import Button from "../components/Button"; // Import Button component
 import { omahaHands } from "../data/omahaHands"; // Import omaha hands data
 
@@ -8,6 +8,13 @@ const HandSelectionScreen = () => {
 
 	const handleSelectHand = (hand) => {
 		setSelectedHand(hand);
+		evaluateHand(hand);
+	};
+
+	const evaluateHand = (hand) => {
+		// Placeholder for evaluating the hand (e.g., hand strength, odds, etc.)
+		console.log(`Evaluating hand: ${hand.name}`);
+		// You can expand this with actual logic for hand evaluation, e.g., strength or odds
 	};
 
 	const renderItem = ({ item }) => {
