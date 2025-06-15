@@ -8,7 +8,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "prepare": "husky install",
+    "test": "console.log('no tests yet!') && exit 0"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
@@ -42,8 +44,11 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@types/react": "~19.0.10",
-    "eslint": "^9.25.0",
+    "eslint": "^9.26.0",
     "eslint-config-expo": "~9.2.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^16.0.0",
+    "prettier": "^3.5.3",
     "typescript": "~5.8.3"
   },
   "private": true
