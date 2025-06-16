@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Hand } from '../types/handTypes';
 
 const SELECTED_HANDS_KEY = 'selectedHands';
 
-export const storeHandSelection = async (hand) => {
+export const storeHandSelection = async (hand: Hand) => {
   try {
     const stored = await AsyncStorage.getItem(SELECTED_HANDS_KEY);
     const parsed = stored ? JSON.parse(stored) : [];
